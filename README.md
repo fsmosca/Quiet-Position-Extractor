@@ -19,32 +19,40 @@ python qpe.py --input ./epd/wacnew.epd --movetimems 1000 --engine "./engine/stoc
 ### Sample run
 Analyze wacnew.epd
 ```
-D:\github\Quiet-Position-Extractor>python qpe.py --input "./epd/wacnew.epd" --movetimems 200 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engineoption "Hash=128" --log
+D:\github\Quiet-Position-Extractor>python qpe.py --input "./epd/tsc.epd" --movetimems 1000 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engineoption "Hash=128" --log
 Analysis starts ...
 pos: 1
-Skip, score is a mate.
+['h7h5', 'b2b3']
+Skip, pv length is below 4 plies.
 pos: 2
-Skip, the bm in 8/7p/5k2/5p2/p1p2P2/Pr1pPK2/1P1R3P/8 b - - bm Rxb2; id "WAC.002"; is tactical.
+saving ...
+r1bk3r/ppp1bpp1/2p5/4Pn1p/8/2N2N1P/PPP2PP1/R1B2RK1 w - - acd 14; ce 45; sm Bf4; EngineMove b3; c0 "Event: Croatia GCT 2019, Site: Zagreb CRO, Date: 2019.07.04, Round: 8.6, WhiteElo: 2779, BlackElo: 2748"; WhitePlayer "Vachier Lagrave,M"; BlackPlayer "Karjakin,Sergey"; LegalMoves 31; AnalyzingEngine "Stockfish 11";
+['Bf4', 'Ke8', 'Rad1', 'Be6']
 pos: 3
-['e3g3']
+['c8e6', 'f1d1']
 Skip, pv length is below 4 plies.
 pos: 4
-Skip, the bm in r1bq2rk/pp3pbp/2p1p1pQ/7P/3P4/2PB1N2/PP3PPR/2KR4 w - - bm Qxh7+; id "WAC.004"; is tactical.
-pos: 5
-Skip, the bm in 5k2/6pp/p1qN4/1p1p4/3P4/2PKP2Q/PP3r2/3R4 b - - bm Qc4+; id "WAC.005"; is tactical.
-pos: 6
-['b6b7']
+['f1d1', 'd8e8']
 Skip, pv length is below 4 plies.
-pos: 7
+pos: 5
 saving ...
-rnbqkb1r/pppp1ppp/8/4P3/6n1/7P/PPPNPPP1/R1BQKBNR b KQkq - bm Ne3; id "WAC.007";
-['Ne3', 'Ngf3', 'Be7', 'a4']
+r1k4r/ppp1bpp1/2p1b3/4Pn1p/5B2/2N2N1P/PPP2PP1/3R1RK1 w - - acd 14; ce 84; sm a3; EngineMove Ng5; c0 "Event: Croatia GCT 2019, Site: Zagreb CRO, Date: 2019.07.04, Round: 8.6, WhiteElo: 2779, BlackElo: 2748"; WhitePlayer "Vachier Lagrave,M"; BlackPlayer "Karjakin,Sergey"; LegalMoves 40; AnalyzingEngine "Stockfish 11";
+['Ne4', 'a5', 'a4', 'b6']
+pos: 6
+['b6', 'Bg5', 'Kb7', 'Bxe7']
+Skip, move in the pv has a promote or check or capture move.
+pos: 7
+['Bg5', 'Kb7', 'Bxe7']
+Skip, move in the pv has a promote or check or capture move.
 pos: 8
-Skip, score is a mate.
+['c8b7']
+Skip, pv length is below 4 plies.
 pos: 9
-Skip, the bm in 3q1rk1/p4pp1/2pb3p/3p4/6Pr/1PNQ4/P1PB1PP1/4RRK1 b - - bm Bh2+; id "WAC.009"; is tactical.
+['g5e7', 'e8e7']
+Skip, pv length is below 4 plies.
 pos: 10
-Skip, the bm in 2br2k1/2q3rn/p2NppQ1/2p1P3/Pp5R/4P3/1P3PPP/3R2K1 w - - bm Rxh7; id "WAC.010"; is tactical.
+Skip, abs score difference between static and search score is above 100 score margin.
+static scorecp: -425, search scorecp: 44, abs(44 - (-425)): 469
 ...
 ```
 
