@@ -21,7 +21,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.1.beta'
+APP_VERSION = 'v0.2.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -116,7 +116,7 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
 
             print(epdline)
             print(sanpv)
-            with open('tmpout.epd', 'a') as s:
+            with open(outputepd, 'a') as s:
                 s.write(f'{epdline}\n')
 
     engine.quit()
@@ -151,7 +151,8 @@ def main():
     outepd_file = args.outputepd
     movetimems = args.movetimems
 
-    tmpfn = Path('tmpout.epd')
+    # Delete existing epdoutput file
+    tmpfn = Path(outepd_file)
     tmpfn.unlink(missing_ok=True)
 
     if args.log:
