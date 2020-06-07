@@ -22,7 +22,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.7.beta'
+APP_VERSION = 'v0.8.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -137,7 +137,7 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                 continue
 
             # Compare Stockfish static eval and search score.
-            if score is not None:
+            if score is not None and 'stockfish' in engine.id['name'].lower():
                 staticeval = stockfish_staticeval(engineprocess, board)
                 absdiff = abs(score - staticeval)
                 if absdiff > scoremargin:
