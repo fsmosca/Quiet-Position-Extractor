@@ -87,14 +87,15 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
 
             sanpv = []
             for i, m in enumerate(pv):
-                if i >= 5:
+                if i > pvlen - 1:
                     break
+
+                sanmove = board.san(m)
+                sanpv.append(sanmove)
 
                 if len(str(m)) >= 5:
                     ispromote = True
                     break
-
-                sanmove = board.san(m)
 
                 if '+' in sanmove:
                     ischeck = True
@@ -104,8 +105,6 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                     iscapture = True
                     break
 
-                sanpv.append(sanmove)
-
                 board.push(m)
 
             if ispromote or ischeck or iscapture:
@@ -114,6 +113,7 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                       ' or capture move.')
                 continue
 
+            print('saving ...')
             print(epdline)
             print(sanpv)
             with open(outputepd, 'a') as s:
