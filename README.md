@@ -56,6 +56,35 @@ static scorecp: -425, search scorecp: 44, abs(44 - (-425)): 469
 ...
 ```
 
+### Help
+```
+(venv) PS D:\github\Quiet-Position-Extractor> python qpe.py --help                                                      usage: QPE - Quiet Position Extractor v0.9.beta [-h] --input INPUT [--outputepd OUTPUTEPD] --engine ENGINE
+                                                [--engineoption ENGINEOPTION] [--movetimems MOVETIMEMS]
+                                                [--pvlen PVLEN] [--score-margincp SCORE_MARGINCP] [--log]
+                                                [--static-eval]
+
+Analyze epd and save quiet positions.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --input INPUT         input epd file
+  --outputepd OUTPUTEPD
+                        output epd file in append mode, default=out.epd
+  --engine ENGINE       input engine file
+  --engineoption ENGINEOPTION
+                        input engine options, e.g --engineoption "Threads=1, Hash=128, Debug Log File=log.txt"
+  --movetimems MOVETIMEMS
+                        input analysis time in ms, default=1000
+  --pvlen PVLEN         input pv length to check moves, default=4
+  --score-margincp SCORE_MARGINCP
+                        input score margin in cp (centipawn) for the score delta of static eval and search score. If
+                        delta is above score margin, the position will not be saved. Default=100
+  --log                 a flag to enable logging
+  --static-eval         a flag to enable the use of static eval in extracting quiet positions
+
+QPE - Quiet Position Extractor v0.9.beta
+```
+
 
 ### Credits
 * Python-chess  
