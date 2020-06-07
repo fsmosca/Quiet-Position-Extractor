@@ -19,154 +19,32 @@ python qpe.py --input ./epd/wacnew.epd --movetimems 1000 --engine "./engine/stoc
 ### Sample run
 Analyze wacnew.epd
 ```
-(venv) PS D:\github\Quiet-Position-Extractor> ./qpe.bat                                                                 
-D:\github\Quiet-Position-Extractor>set MTMS=200
-
-D:\github\Quiet-Position-Extractor>set EPD="./epd/wacnew.epd"
-
-D:\github\Quiet-Position-Extractor>python qpe.py --input "./epd/wacnew.epd" --movetimems 200 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engineoption "Hash=128"
+D:\github\Quiet-Position-Extractor>python qpe.py --input "./epd/wacnew.epd" --movetimems 200 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engineoption "Hash=128" --log
 Analysis starts ...
 pos: 1
 Skip, score is a mate.
 pos: 2
-[Move.from_uci('b3b8')]
-Skip, pv length is below 4 plies.
+Skip, the bm in 8/7p/5k2/5p2/p1p2P2/Pr1pPK2/1P1R3P/8 b - - bm Rxb2; id "WAC.002"; is tactical.
 pos: 3
-['Rg3', 'Bg4', 'Rxg4']
-Skip, move in the pv has a promote or check or capture move.
+['e3g3']
+Skip, pv length is below 4 plies.
 pos: 4
-Skip, score is a mate.
+Skip, the bm in r1bq2rk/pp3pbp/2p1p1pQ/7P/3P4/2PB1N2/PP3PPR/2KR4 w - - bm Qxh7+; id "WAC.004"; is tactical.
 pos: 5
-Skip, score is a mate.
+Skip, the bm in 5k2/6pp/p1qN4/1p1p4/3P4/2PKP2Q/PP3r2/3R4 b - - bm Qc4+; id "WAC.005"; is tactical.
 pos: 6
-['Rb7', 'Rb5', 'Rxb5']
-Skip, move in the pv has a promote or check or capture move.
+['b6b7']
+Skip, pv length is below 4 plies.
 pos: 7
-['Ne3', 'Ngf3', 'Nxd1']
-Skip, move in the pv has a promote or check or capture move.
-pos: 8
-[Move.from_uci('e7f7')]
-Skip, pv length is below 4 plies.
-pos: 9
-Skip, score is a mate.
-pos: 10
-['Rxh7']
-Skip, move in the pv has a promote or check or capture move.
-pos: 11
-['Bxc6']
-Skip, move in the pv has a promote or check or capture move.
-pos: 12
-Skip, score is a mate.
-pos: 13
-['Qxf8+']
-Skip, move in the pv has a promote or check or capture move.
-pos: 14
-Skip, score is a mate.
-pos: 15
-[Move.from_uci('b8b7')]
-Skip, pv length is below 4 plies.
-pos: 16
-['Nc3', 'Qd7', 'Bxc5']
-Skip, move in the pv has a promote or check or capture move.
-pos: 17
 saving ...
-1k5r/pppbn1pp/4q1r1/1P3p2/2NPp3/1QP5/P4PPP/R1B1R1K1 w - - bm Ne5; id "WAC.017";
-['Ne5', 'Rf6', 'Bg5', 'Be8']
-pos: 18
-['Rh8', 'Ra1+']
-Skip, move in the pv has a promote or check or capture move.
-pos: 19
-['c6', 'Qxb5']
-Skip, move in the pv has a promote or check or capture move.
-pos: 20
-['Bb5', 'Qxb5+']
-Skip, move in the pv has a promote or check or capture move.
-pos: 21
-['Qh6', 'Qxe1+']
-Skip, move in the pv has a promote or check or capture move.
-pos: 22
-[Move.from_uci('g5f7')]
-Skip, pv length is below 4 plies.
-pos: 23
-[Move.from_uci('g2g4')]
-Skip, pv length is below 4 plies.
-pos: 24
-[Move.from_uci('g7d4')]
-Skip, pv length is below 4 plies.
-pos: 25
-[Move.from_uci('g4h4')]
-Skip, pv length is below 4 plies.
-pos: 26
-[Move.from_uci('d7f5')]
-Skip, pv length is below 4 plies.
-pos: 27
+rnbqkb1r/pppp1ppp/8/4P3/6n1/7P/PPPNPPP1/R1BQKBNR b KQkq - bm Ne3; id "WAC.007";
+['Ne3', 'Ngf3', 'Be7', 'a4']
+pos: 8
 Skip, score is a mate.
-pos: 28
-['Qe1+']
-Skip, move in the pv has a promote or check or capture move.
-pos: 29
-['c6', 'bxc6']
-Skip, move in the pv has a promote or check or capture move.
-pos: 30
-['Nxd6']
-Skip, move in the pv has a promote or check or capture move.
-pos: 31
-[Move.from_uci('g2g3')]
-Skip, pv length is below 4 plies.
-pos: 32
-['Qd8+']
-Skip, move in the pv has a promote or check or capture move.
-pos: 33
-['Qe5+']
-Skip, move in the pv has a promote or check or capture move.
-pos: 34
-[Move.from_uci('d4g1')]
-Skip, pv length is below 4 plies.
-pos: 35
-Skip, score is a mate.
-pos: 36
-[Move.from_uci('e7e1')]
-Skip, pv length is below 4 plies.
-pos: 37
-[Move.from_uci('c6d4'), Move.from_uci('b3d4')]
-Skip, pv length is below 4 plies.
-pos: 38
-['Rd8+']
-Skip, move in the pv has a promote or check or capture move.
-pos: 39
-['Na4', 'Qxa1']
-Skip, move in the pv has a promote or check or capture move.
-pos: 40
-['Rc8', 'a4', 'Rxc4']
-Skip, move in the pv has a promote or check or capture move.
-pos: 41
-Skip, score is a mate.
-pos: 42
-[Move.from_uci('b4a5'), Move.from_uci('g7f8')]
-Skip, pv length is below 4 plies.
-pos: 43
-[Move.from_uci('a3e7')]
-Skip, pv length is below 4 plies.
-pos: 44
-['dxc4']
-Skip, move in the pv has a promote or check or capture move.
-pos: 45
-['Qxa1']
-Skip, move in the pv has a promote or check or capture move.
-pos: 46
-[Move.from_uci('c3b5'), Move.from_uci('d7f6')]
-Skip, pv length is below 4 plies.
-pos: 47
-[Move.from_uci('c6d4')]
-Skip, pv length is below 4 plies.
-pos: 48
-[Move.from_uci('b8b4'), Move.from_uci('c4f7')]
-Skip, pv length is below 4 plies.
-pos: 49
-[Move.from_uci('h5h6'), Move.from_uci('b2f2')]
-Skip, pv length is below 4 plies.
-pos: 50
-Skip, score is a mate.
+pos: 9
+Skip, the bm in 3q1rk1/p4pp1/2pb3p/3p4/6Pr/1PNQ4/P1PB1PP1/4RRK1 b - - bm Bh2+; id "WAC.009"; is tactical.
+pos: 10
+Skip, the bm in 2br2k1/2q3rn/p2NppQ1/2p1P3/Pp5R/4P3/1P3PPP/3R2K1 w - - bm Rxh7; id "WAC.010"; is tactical.
 ...
 ```
 
