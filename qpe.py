@@ -33,6 +33,21 @@ def get_time_h_mm_ss_ms(time_delta_ns):
     return '{:01d}h:{:02d}m:{:02d}s:{:03d}ms'.format(h, m, s, ms)
 
 
+def tactical_move(board, epdinfo):
+    """
+    Tactical move: capture or check
+    """
+    if 'bm' not in epdinfo:
+        return False
+
+    sanbm = [board.san(m) for m in epdinfo['bm']]
+    for m in sanbm:
+        if 'x' in m or '+' in m:
+            return True
+
+    return False
+
+
 def runengine(engine_file, engineoption, epdfile, movetimems,
               outputepd, pvlen):
     pos_num = 0
@@ -57,6 +72,11 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
             logging.info(epdline)
             board, epdinfo = chess.Board().from_epd(epdline)
             pos_num += 1
+
+            # Skip if EPD bm is a tactical move.
+            if tactical_move(board, epdinfo):
+                print(f'Skip, the bm in {epdline} is tactical.')
+                continue
 
             pv = ''
             with engine.analysis(board, limit) as analysis:
