@@ -21,7 +21,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.3.beta'
+APP_VERSION = 'v0.4.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
