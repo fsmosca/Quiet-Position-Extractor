@@ -64,8 +64,7 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                     if ('upperbound' not in info
                             and 'lowerbound' not in info
                             and 'score' in info
-                            and 'pv' in info
-                            and 'depth' in info):
+                            and 'pv' in info):
                         pv = info['pv']
 
                         if info['score'].is_mate():
