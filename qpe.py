@@ -35,14 +35,14 @@ def get_time_h_mm_ss_ms(time_delta_ns):
 
 def tactical_move(board, epdinfo):
     """
-    Tactical move: capture or check
+    Tactical move: capture or check or promote or mate.
     """
     if 'bm' not in epdinfo:
         return False
 
     sanbm = [board.san(m) for m in epdinfo['bm']]
     for m in sanbm:
-        if 'x' in m or '+' in m:
+        if 'x' in m or '+' in m or '=' in m or '#' in m:
             return True
 
     return False
