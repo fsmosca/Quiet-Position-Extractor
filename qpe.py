@@ -21,7 +21,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.2.beta'
+APP_VERSION = 'v0.3.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -125,7 +125,7 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
 def main():
     parser = argparse.ArgumentParser(
         prog='%s %s' % (APP_NAME, APP_VERSION),
-        description='Analyze epd and output to pgn and epd',
+        description='Analyze epd and save quiet positions.',
         epilog='%(prog)s')
     parser.add_argument('--input', required=True, help='input epd file')
     parser.add_argument('--outputepd', required=False,
