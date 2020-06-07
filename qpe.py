@@ -159,8 +159,10 @@ def main():
     tmpfn.unlink(missing_ok=True)
 
     if args.log:
-        logging.basicConfig(level=logging.DEBUG,
-                            filename='log_quietopeningextractor.txt', filemode='w')
+        logging.basicConfig(
+            level=logging.DEBUG,
+            filename='log_quietopeningextractor.txt',
+            filemode='w')
 
     timestart = time.perf_counter_ns()
 
