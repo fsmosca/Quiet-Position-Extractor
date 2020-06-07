@@ -22,7 +22,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.8.beta'
+APP_VERSION = 'v0.9.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -77,7 +77,7 @@ def tactical_move(board, epdinfo):
 
 
 def runengine(engine_file, engineoption, epdfile, movetimems,
-              outputepd, pvlen, scoremargin):
+              outputepd, pvlen, scoremargin, use_static_eval):
     pos_num = 0
     folder = Path(engine_file).parents[0]
     engine = chess.engine.SimpleEngine.popen_uci(engine_file, cwd=folder)
@@ -137,7 +137,8 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                 continue
 
             # Compare Stockfish static eval and search score.
-            if score is not None and 'stockfish' in engine.id['name'].lower():
+            if (use_static_eval and score is not None and
+                    'stockfish' in engine.id['name'].lower()):
                 staticeval = stockfish_staticeval(engineprocess, board)
                 absdiff = abs(score - staticeval)
                 if absdiff > scoremargin:
@@ -227,6 +228,9 @@ def main():
                         default=100)
     parser.add_argument('--log', action="store_true",
                         help='a flag to enable logging')
+    parser.add_argument('--static-eval', action="store_true",
+                        help='a flag to enable the use of static eval '
+                             'in extracting quiet positions')
 
     args = parser.parse_args()
     epd_file = args.input
@@ -248,7 +252,7 @@ def main():
 
     print('Analysis starts ...')
     runengine(engine_file, args.engineoption, epd_file, movetimems,
-              outepd_file, args.pvlen, args.score_margincp)
+              outepd_file, args.pvlen, args.score_margincp, args.static_eval)
     print('Analysis done!')
 
     elapse = time.perf_counter_ns() - timestart
