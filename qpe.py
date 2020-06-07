@@ -73,6 +73,8 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
             board, epdinfo = chess.Board().from_epd(epdline)
             pos_num += 1
 
+            print(f'pos: {pos_num}')
+
             # Skip if EPD bm is a tactical move.
             if tactical_move(board, epdinfo):
                 print(f'Skip, the bm in {epdline} is tactical.')
@@ -89,8 +91,6 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
 
                         if info['score'].is_mate():
                             ismate = True
-
-            print(f'pos: {pos_num}')
 
             # Don't extract if score is mate or mated
             if ismate:
