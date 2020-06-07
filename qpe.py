@@ -21,7 +21,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.5.beta'
+APP_VERSION = 'v0.6.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -74,6 +74,11 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
             pos_num += 1
 
             print(f'pos: {pos_num}')
+
+            # Skip if side to move is in check.
+            if board.is_attacked_by(not board.turn, board.king(board.turn)):
+                print(f'Skip, the side to move is incheck in {epdline}.')
+                continue
 
             # Skip if EPD bm is a tactical move.
             if tactical_move(board, epdinfo):
