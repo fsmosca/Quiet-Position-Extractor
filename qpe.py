@@ -10,6 +10,7 @@ Requirements:
 """
 
 
+import subprocess
 import time
 from pathlib import Path
 import argparse
@@ -21,7 +22,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.6.beta'
+APP_VERSION = 'v0.7.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -31,6 +32,33 @@ def get_time_h_mm_ss_ms(time_delta_ns):
     h, m = divmod(m, 60)
 
     return '{:01d}h:{:02d}m:{:02d}s:{:03d}ms'.format(h, m, s, ms)
+
+
+def stockfish_staticeval(engineprocess, board):
+    """
+    command: eval
+    result: Total evaluation: 0.13 (white side)
+    """
+    staticscorecp = None
+
+    fen = board.fen()
+
+    engineprocess.stdin.write('ucinewgame\n')
+    engineprocess.stdin.write(f'position fen {fen}\n')
+
+    engineprocess.stdin.write('eval\n')
+    for lines in iter(engineprocess.stdout.readline, ''):
+        line = lines.strip()
+        if 'total evaluation' in line.lower():
+            scoreline = line.split('Total evaluation:')[1].strip()
+            score = float(scoreline.split('(')[0].strip())
+            staticscorecp = int(100*score)
+            break
+
+    if staticscorecp is None:
+        return None
+
+    return staticscorecp if board.turn else -staticscorecp
 
 
 def tactical_move(board, epdinfo):
@@ -49,7 +77,7 @@ def tactical_move(board, epdinfo):
 
 
 def runengine(engine_file, engineoption, epdfile, movetimems,
-              outputepd, pvlen):
+              outputepd, pvlen, scoremargin):
     pos_num = 0
     folder = Path(engine_file).parents[0]
     engine = chess.engine.SimpleEngine.popen_uci(engine_file, cwd=folder)
@@ -62,6 +90,10 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
             engine.configure({optname: optvalue})
 
     limit = chess.engine.Limit(time=movetimems/1000)
+    engineprocess = subprocess.Popen(engine_file, stdin=subprocess.PIPE,
+                                     stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT,
+                                     universal_newlines=True, bufsize=1)
 
     # Open epd file to get epd lines, analyze, and save it.
     with open(epdfile) as f:
@@ -85,7 +117,7 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                 print(f'Skip, the bm in {epdline} is tactical.')
                 continue
 
-            pv = ''
+            pv, score = '', None
             with engine.analysis(board, limit) as analysis:
                 for info in analysis:
                     if ('upperbound' not in info
@@ -97,10 +129,24 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                         if info['score'].is_mate():
                             ismate = True
 
+                        score = info['score'].relative.score(mate_score=32000)
+
             # Don't extract if score is mate or mated
             if ismate:
                 print('Skip, score is a mate.')
                 continue
+
+            # Compare Stockfish static eval and search score.
+            if score is not None:
+                staticeval = stockfish_staticeval(engineprocess, board)
+                absdiff = abs(score - staticeval)
+                if absdiff > scoremargin:
+                    print('Skip, abs score difference between static and '
+                          f'search score is above {scoremargin} score margin.')
+                    print(f'static scorecp: {staticeval}, '
+                          f'search scorecp: {score}, '
+                          f'abs({score} - ({staticeval})): {absdiff}')
+                    continue
 
             # Don't extract if there is capture or promote, or a check
             # move in the first pvlen plies of the pv
@@ -149,6 +195,9 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
 
     engine.quit()
 
+    engineprocess.stdin.write('quit\n')
+    print('quit engineprocess')
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -170,6 +219,12 @@ def main():
     parser.add_argument('--pvlen', required=False, type=int,
                         help='input pv length to check moves, default=4',
                         default=4)
+    parser.add_argument('--score-margincp', required=False, type=int,
+                        help='input score margin in cp (centipawn) for the '
+                             'score delta of static eval and search score. '
+                             'If delta is above score margin, the position '
+                             'will not be saved. Default=100',
+                        default=100)
     parser.add_argument('--log', action="store_true",
                         help='a flag to enable logging')
 
@@ -193,7 +248,7 @@ def main():
 
     print('Analysis starts ...')
     runengine(engine_file, args.engineoption, epd_file, movetimems,
-              outepd_file, args.pvlen)
+              outepd_file, args.pvlen, args.score_margincp)
     print('Analysis done!')
 
     elapse = time.perf_counter_ns() - timestart
