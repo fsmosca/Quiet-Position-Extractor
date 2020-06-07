@@ -80,7 +80,8 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
             # Don't extract if there is capture or promote, or a check
             # move in the first 6 plies of the pv
             if len(pv) < pvlen:
-                print(pv)
+                ucipv = [str(m) for m in pv]
+                print(ucipv)
                 print(f'Skip, pv length is below {pvlen} plies.')
                 continue
 
