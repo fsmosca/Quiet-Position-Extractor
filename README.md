@@ -17,9 +17,9 @@ python qpe.py --input ./epd/wacnew.epd --movetimems 1000 --engine "./engine/stoc
 ```
 
 ### Sample run
-Analyze wacnew.epd
+Analyze tsc.epd in epd folder
 ```
-D:\github\Quiet-Position-Extractor>python qpe.py --input "./epd/tsc.epd" --movetimems 1000 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engineoption "Hash=128" --log
+python qpe.py --input "./epd/tsc.epd" --movetimems 1000 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engineoption "Hash=128" --log
 Analysis starts ...
 pos: 1
 ['h7h5', 'b2b3']
