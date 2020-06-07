@@ -157,7 +157,7 @@ def main():
 
     if args.log:
         logging.basicConfig(level=logging.DEBUG,
-                            filename='log_epdanalyzer.txt', filemode='w')
+                            filename='log_quietopeningextractor.txt', filemode='w')
 
     timestart = time.perf_counter_ns()
 
