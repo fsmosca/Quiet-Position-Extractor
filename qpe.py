@@ -22,7 +22,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.10.beta'
+APP_VERSION = 'v0.11.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -61,11 +61,21 @@ def stockfish_staticeval(engineprocess, board):
     return staticscorecp if board.turn else -staticscorecp
 
 
-def tactical_move(board, epdinfo):
+def tactical_move(board=None, epdinfo=None, move=None):
     """
     Tactical move: capture or check or promote or mate.
     """
-    if 'bm' not in epdinfo:
+    if epdinfo is None and move is None:
+        return False
+
+    if move is not None:
+        if 'x' in move or '+' in move or '=' in move or '#' in move:
+            return True
+
+    if epdinfo is not None and 'bm' not in epdinfo:
+        return False
+
+    if board is None:
         return False
 
     sanbm = [board.san(m) for m in epdinfo['bm']]
@@ -98,7 +108,7 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
     # Open epd file to get epd lines, analyze, and save it.
     with open(epdfile) as f:
         for lines in f:
-            ismate, ispromote, ischeck, iscapture = False, False, False, False
+            ismate = False
 
             epdline = lines.strip()
             logging.info(epdline)
@@ -113,7 +123,7 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                 continue
 
             # Skip if EPD bm is a tactical move.
-            if tactical_move(board, epdinfo):
+            if tactical_move(board=board, epdinfo=epdinfo, move=None):
                 print(f'Skip, the bm in {epdline} is tactical.')
                 continue
 
@@ -141,11 +151,11 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                 staticeval = stockfish_staticeval(engineprocess, board)
                 absdiff = abs(score - staticeval)
                 if absdiff > scoremargin:
-                    print('Skip, abs score difference between static and '
-                          f'search score is above {scoremargin} score margin.')
                     print(f'static scorecp: {staticeval}, '
                           f'search scorecp: {score}, '
                           f'abs({score} - ({staticeval})): {absdiff}')
+                    print('Skip, abs score difference between static and '
+                          f'search score is above {scoremargin} score margin.')
                     continue
 
             # Skip if required pvlen is not meet.
@@ -159,7 +169,7 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
             # move in the first pvlen plies of the pv
 
             # Evaluate pv
-            sanpv = []
+            sanpv, istactical = [], False
             for i, m in enumerate(pv):
                 if i > pvlen - 1:
                     break
@@ -167,24 +177,15 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                 sanmove = board.san(m)
                 sanpv.append(sanmove)
 
-                if len(str(m)) >= 5:
-                    ispromote = True
-                    break
-
-                if '+' in sanmove:
-                    ischeck = True
-                    break
-
-                if 'x' in sanmove:
-                    iscapture = True
+                if tactical_move(board=None, epdinfo=None, move=sanmove):
+                    istactical = True
                     break
 
                 board.push(m)
 
-            if ispromote or ischeck or iscapture:
+            if istactical:
                 print(sanpv)
-                print('Skip, move in the pv has a promote or check'
-                      ' or capture move.')
+                print('Skip, move in the pv has a tactical move')
                 continue
 
             print('saving ...')
