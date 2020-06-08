@@ -16,6 +16,55 @@ See also qpe.bat
 python qpe.py --input ./epd/wacnew.epd --movetimems 1000 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engine-option "Hash=128"
 ```
 
+### Cancel and Continue
+* You can cancel current analysis session and continue later. All epds that were already evaluated are saved in evaluated.epd. Make sure the same command line is used as this program will only detect the epd, not the engine, movetime etc. If you have a new command line to run, make sure to delete the evaluated.epd first.  
+
+```
+D:\github\Quiet-Position-Extractor>python qpe.py --log --input "./epd/wacnew.epd" --movetimems 1000 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engine-option "Hash=128" --static-eval
+Analysis starts ...
+pos: 1
+score: #+2
+Skip, score is a mate.
+pos: 2
+Skip, the bm in 8/7p/5k2/5p2/p1p2P2/Pr1pPK2/1P1R3P/8 b - - bm Rxb2; id "WAC.002"; is tactical.
+pos: 3
+static scorecp: -38, search scorecp: 588, abs(588 - (-38)): 626
+Skip, abs score difference between static and search score is above 100 score margin.
+pos: 4
+Skip, the bm in r1bq2rk/pp3pbp/2p1p1pQ/7P/3P4/2PB1N2/PP3PPR/2KR4 w - - bm Qxh7+; id "WAC.004"; is tactical.
+pos: 5
+Skip, the bm in 5k2/6pp/p1qN4/1p1p4/3P4/2PKP2Q/PP3r2/3R4 b - - bm Qc4+; id "WAC.005"; is tactical.
+pos: 6
+^CTerminate batch job (Y/N)? y
+(venv) PS D:\github\Quiet-Position-Extractor> ./qpe.bat                                                                 
+D:\github\Quiet-Position-Extractor>set MTMS=1000
+
+D:\github\Quiet-Position-Extractor>set EPD="./epd/wacnew.epd"
+
+D:\github\Quiet-Position-Extractor>python qpe.py --log --input "./epd/wacnew.epd" --movetimems 1000 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engine-option "Hash=128" --static-eval
+Analysis starts ...
+pos: 1
+This epd 2rr3k/pp3pp1/1nnqbN1p/3pN3/2pP4/2P3Q1/PPB4P/R4RK1 w - - bm Qg6; id "WAC.001"; is already evaluated.
+pos: 2
+This epd 8/7p/5k2/5p2/p1p2P2/Pr1pPK2/1P1R3P/8 b - - bm Rxb2; id "WAC.002"; is already evaluated.
+pos: 3
+This epd 5rk1/1ppb3p/p1pb4/6q1/3P1p1r/2P1R2P/PP1BQ1P1/5RKN w - - bm Rg3; id "WAC.003"; is already evaluated.
+pos: 4
+This epd r1bq2rk/pp3pbp/2p1p1pQ/7P/3P4/2PB1N2/PP3PPR/2KR4 w - - bm Qxh7+; id "WAC.004"; is already evaluated.
+pos: 5
+This epd 5k2/6pp/p1qN4/1p1p4/3P4/2PKP2Q/PP3r2/3R4 b - - bm Qc4+; id "WAC.005"; is already evaluated.
+pos: 6
+score: #+12
+Skip, score is a mate.
+pos: 7
+static scorecp: -169, search scorecp: 816, abs(816 - (-169)): 985
+Skip, abs score difference between static and search score is above 100 score margin.
+pos: 8
+^CTerminate batch job (Y/N)? y
+...
+```
+
+
 ### Sample run
 ```
 python qpe.py --input "./epd/wacnew.epd" --movetimems 1500 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engine-option "Hash=128" --static-eval
