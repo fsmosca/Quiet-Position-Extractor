@@ -22,7 +22,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.11.beta'
+APP_VERSION = 'v0.12.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -63,25 +63,28 @@ def stockfish_staticeval(engineprocess, board):
 
 def tactical_move(board=None, epdinfo=None, move=None):
     """
-    Tactical move: capture or check or promote or mate.
-    """
-    if epdinfo is None and move is None:
-        return False
+    Evaluate if the move in epd or a move from pv is a tactical move.
+    Tactical moves: capture or check or promote or mate.
 
+    :param board: python-chess board object
+    :param epdinfo: the opcode/operand of the EPD, a dictionary or {}
+    :param move: the move from the pv in SAN format
+    :return: True if move is tactical othewise False
+    """
+    # Case 1. A move in the pv is evaluated.
     if move is not None:
         if 'x' in move or '+' in move or '=' in move or '#' in move:
             return True
 
-    if epdinfo is not None and 'bm' not in epdinfo:
-        return False
+    # Case 2. The bm in the EPD is evaluated.
+    else:
+        if 'bm' not in epdinfo:
+            return False
 
-    if board is None:
-        return False
-
-    sanbm = [board.san(m) for m in epdinfo['bm']]
-    for m in sanbm:
-        if 'x' in m or '+' in m or '=' in m or '#' in m:
-            return True
+        sanbm = [board.san(m) for m in epdinfo['bm']]
+        for m in sanbm:
+            if 'x' in m or '+' in m or '=' in m or '#' in m:
+                return True
 
     return False
 
