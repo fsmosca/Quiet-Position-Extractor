@@ -22,7 +22,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.12.beta'
+APP_VERSION = 'v0.13.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -130,7 +130,7 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                 print(f'Skip, the bm in {epdline} is tactical.')
                 continue
 
-            pv, score = '', None
+            pv, score, mate_score = '', None, None
             with engine.analysis(board, limit) as analysis:
                 for info in analysis:
                     if ('upperbound' not in info
@@ -139,12 +139,18 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                             and 'pv' in info):
                         pv = info['pv']
 
-                        ismate = True if info['score'].is_mate() else False
+                        if info['score'].is_mate():
+                            ismate = True
+                            mate_score = info['score']
+                        else:
+                            ismate = False
+                            mate_score = None
 
                         score = info['score'].relative.score(mate_score=32000)
 
             # Don't extract if score is mate or mated
             if ismate:
+                print(f'score: {mate_score}')
                 print('Skip, score is a mate.')
                 continue
 
