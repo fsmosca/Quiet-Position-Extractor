@@ -22,7 +22,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.16.beta'
+APP_VERSION = 'v0.17.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -32,6 +32,22 @@ def get_time_h_mm_ss_ms(time_delta_ns):
     h, m = divmod(m, 60)
 
     return '{:01d}h:{:02d}m:{:02d}s:{:03d}ms'.format(h, m, s, ms)
+
+
+def get_epd(infn):
+    """
+    Read infn file and return the epd in a list.
+    """
+    epds = []
+
+    evaluated_epd_file = Path(infn)
+    if evaluated_epd_file.is_file():
+        with open(infn) as f:
+            for lines in f:
+                board, _ = chess.Board().from_epd(lines.strip())
+                epds.append(board.epd())
+
+    return epds
 
 
 def stockfish_staticeval(engineprocess, board):
@@ -92,6 +108,10 @@ def tactical_move(board=None, epdinfo=None, move=None):
 def runengine(engine_file, engineoption, epdfile, movetimems,
               outputepd, pvlen, scoremargin, use_static_eval, lowpvfn):
     pos_num = 0
+
+    # Get epd's that were previously evaluated.
+    evaluated_epds = get_epd('evaluated.epd')
+
     folder = Path(engine_file).parents[0]
     engine = chess.engine.SimpleEngine.popen_uci(engine_file, cwd=folder)
 
@@ -116,9 +136,19 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
             epdline = lines.strip()
             logging.info(epdline)
             board, epdinfo = chess.Board().from_epd(epdline)
+            epd = board.epd()
             pos_num += 1
 
             print(f'pos: {pos_num}')
+
+            # Don't evaluate current epd if it is already in evaluated.epd
+            if epd in evaluated_epds:
+                print(f'This epd {epdline} is already evaluated.')
+                continue
+
+            # Save all the epd that is to be evaluated.
+            with open('evaluated.epd', 'a') as e:
+                e.write(f'{epdline}\n')
 
             # Skip if side to move is in check.
             if board.is_attacked_by(not board.turn, board.king(board.turn)):
