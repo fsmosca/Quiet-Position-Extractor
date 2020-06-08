@@ -22,7 +22,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.17.beta'
+APP_VERSION = 'v0.18.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -32,6 +32,11 @@ def get_time_h_mm_ss_ms(time_delta_ns):
     h, m = divmod(m, 60)
 
     return '{:01d}h:{:02d}m:{:02d}s:{:03d}ms'.format(h, m, s, ms)
+
+
+def save_evaluated_epd(epd):
+    with open('evaluated.epd', 'a') as e:
+        e.write(f'{epd}\n')
 
 
 def get_epd(infn):
@@ -146,18 +151,16 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                 print(f'This epd {epdline} is already evaluated.')
                 continue
 
-            # Save all the epd that is to be evaluated.
-            with open('evaluated.epd', 'a') as e:
-                e.write(f'{epdline}\n')
-
             # Skip if side to move is in check.
             if board.is_attacked_by(not board.turn, board.king(board.turn)):
                 print(f'Skip, the side to move is incheck in {epdline}.')
+                save_evaluated_epd(epdline)
                 continue
 
             # Skip if EPD bm is a tactical move.
             if tactical_move(board=board, epdinfo=epdinfo, move=None):
                 print(f'Skip, the bm in {epdline} is tactical.')
+                save_evaluated_epd(epdline)
                 continue
 
             pv, score, mate_score = '', None, None
@@ -177,6 +180,8 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                             mate_score = None
 
                         score = info['score'].relative.score(mate_score=32000)
+
+            save_evaluated_epd(epdline)
 
             # Don't extract if score is mate or mated
             if ismate:
