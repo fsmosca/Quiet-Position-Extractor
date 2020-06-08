@@ -22,7 +22,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.13.beta'
+APP_VERSION = 'v0.14.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -90,7 +90,7 @@ def tactical_move(board=None, epdinfo=None, move=None):
 
 
 def runengine(engine_file, engineoption, epdfile, movetimems,
-              outputepd, pvlen, scoremargin, use_static_eval):
+              outputepd, pvlen, scoremargin, use_static_eval, lowpvfn):
     pos_num = 0
     folder = Path(engine_file).parents[0]
     engine = chess.engine.SimpleEngine.popen_uci(engine_file, cwd=folder)
@@ -172,6 +172,16 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                 ucipv = [str(m) for m in pv]
                 print(ucipv)
                 print(f'Skip, pv length is below {pvlen} plies.')
+
+                # Save to file the position where engine could not
+                # create the required pv length. This file can be used
+                # to investigate the issue.
+                with open(lowpvfn, 'a') as s:
+                    s.write(f'{epdline} Acms {movetimems}; '
+                            f'C0 "status: pvlength is below requirement, '
+                            f'ucipv: {ucipv}, ucipvlen: {len(ucipv)}, '
+                            f'pvlength required: {pvlen}"; '
+                            f'Anno "{engine.id["name"]}";\n')
                 continue
 
             # Don't extract if there is capture or promote, or a check
@@ -251,6 +261,9 @@ def main():
     tmpfn = Path(outepd_file)
     tmpfn.unlink(missing_ok=True)
 
+    # Save epd where engine pv length is below required pv length, append mode.
+    lowpvfn = 'low_pvlength.epd'
+
     if args.log:
         logging.basicConfig(
             level=logging.DEBUG,
@@ -261,7 +274,8 @@ def main():
 
     print('Analysis starts ...')
     runengine(engine_file, args.engineoption, epd_file, movetimems,
-              outepd_file, args.pvlen, args.score_margincp, args.static_eval)
+              outepd_file, args.pvlen, args.score_margincp, args.static_eval,
+              lowpvfn)
     print('Analysis done!')
 
     elapse = time.perf_counter_ns() - timestart
