@@ -10,15 +10,15 @@ See requirements.txt
 `pip install -r requirements.txt`
 
 ### Command line
-See qpe.bat  
+See also qpe.bat  
 
 ```
-python qpe.py --input ./epd/wacnew.epd --movetimems 1000 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engineoption "Hash=128"
+python qpe.py --input ./epd/wacnew.epd --movetimems 1000 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engine-option "Hash=128"
 ```
 
 ### Sample run
 ```
-python qpe.py --input "./epd/wacnew.epd" --movetimems 1500 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engineoption "Hash=128" --static-eval
+python qpe.py --input "./epd/wacnew.epd" --movetimems 1500 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engine-option "Hash=128" --static-eval
 Analysis starts ...
 pos: 1
 score: #+2
@@ -48,10 +48,10 @@ Skip, the bm in 3q1rk1/p4pp1/2pb3p/3p4/6Pr/1PNQ4/P1PB1PP1/4RRK1 b - - bm Bh2+; i
 
 ### Help
 ```
-python qpe.py --help
-usage: QPE - Quiet Position Extractor v0.13.beta [-h] --input INPUT [--outputepd OUTPUTEPD] --engine ENGINE
-                                                 [--engineoption ENGINEOPTION] [--movetimems MOVETIMEMS] [--pvlen PVLEN]
-                                                 [--score-margincp SCORE_MARGINCP] [--log] [--static-eval]
+python qpe.py --help                                                                      
+usage: QPE - Quiet Position Extractor v0.16.beta [-h] --input INPUT [--outputepd OUTPUTEPD] --engine ENGINE
+                                                 [--engine-option ENGINE_OPTION] [--movetimems MOVETIMEMS] [--pvlen PVLEN]
+                                                 [--scorecp-margin SCORECP_MARGIN] [--log] [--static-eval]
 
 Analyze epd and save quiet positions.
 
@@ -61,18 +61,18 @@ optional arguments:
   --outputepd OUTPUTEPD
                         output epd file in append mode, default=out.epd
   --engine ENGINE       input engine file
-  --engineoption ENGINEOPTION
-                        input engine options, e.g --engineoption "Threads=1, Hash=128, Debug Log File=log.txt"
+  --engine-option ENGINE_OPTION
+                        input engine options, e.g --engine-option "Threads=1, Hash=128, Debug Log File=log.txt"
   --movetimems MOVETIMEMS
                         input analysis time in ms, default=1000
   --pvlen PVLEN         input pv length to check moves, default=4
-  --score-margincp SCORE_MARGINCP
+  --scorecp-margin SCORECP_MARGIN
                         input score margin in cp (centipawn) for the score delta of static eval and search score. If delta is
                         above score margin, the position will not be saved. Default=100
   --log                 a flag to enable logging
   --static-eval         a flag to enable the use of static eval in extracting quiet positions
 
-QPE - Quiet Position Extractor v0.13.beta
+QPE - Quiet Position Extractor v0.16.beta
 ```
 
 
