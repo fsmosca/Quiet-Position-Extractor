@@ -17,7 +17,6 @@ python qpe.py --input ./epd/wacnew.epd --movetimems 1000 --engine "./engine/stoc
 ```
 
 ### Sample run
-Analyze tsc.epd in epd folder
 ```
 python qpe.py --input "./epd/wacnew.epd" --movetimems 1500 --engine "./engine/stockfish-11-win/stockfish_20011801_x64_modern.exe" --engineoption "Hash=128" --static-eval
 Analysis starts ...
