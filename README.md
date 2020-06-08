@@ -48,10 +48,10 @@ Skip, the bm in 3q1rk1/p4pp1/2pb3p/3p4/6Pr/1PNQ4/P1PB1PP1/4RRK1 b - - bm Bh2+; i
 
 ### Help
 ```
-(venv) PS D:\github\Quiet-Position-Extractor> python qpe.py --help                                                      usage: QPE - Quiet Position Extractor v0.9.beta [-h] --input INPUT [--outputepd OUTPUTEPD] --engine ENGINE
-                                                [--engineoption ENGINEOPTION] [--movetimems MOVETIMEMS]
-                                                [--pvlen PVLEN] [--score-margincp SCORE_MARGINCP] [--log]
-                                                [--static-eval]
+python qpe.py --help
+usage: QPE - Quiet Position Extractor v0.13.beta [-h] --input INPUT [--outputepd OUTPUTEPD] --engine ENGINE
+                                                 [--engineoption ENGINEOPTION] [--movetimems MOVETIMEMS] [--pvlen PVLEN]
+                                                 [--score-margincp SCORE_MARGINCP] [--log] [--static-eval]
 
 Analyze epd and save quiet positions.
 
@@ -67,12 +67,12 @@ optional arguments:
                         input analysis time in ms, default=1000
   --pvlen PVLEN         input pv length to check moves, default=4
   --score-margincp SCORE_MARGINCP
-                        input score margin in cp (centipawn) for the score delta of static eval and search score. If
-                        delta is above score margin, the position will not be saved. Default=100
+                        input score margin in cp (centipawn) for the score delta of static eval and search score. If delta is
+                        above score margin, the position will not be saved. Default=100
   --log                 a flag to enable logging
   --static-eval         a flag to enable the use of static eval in extracting quiet positions
 
-QPE - Quiet Position Extractor v0.9.beta
+QPE - Quiet Position Extractor v0.13.beta
 ```
 
 
