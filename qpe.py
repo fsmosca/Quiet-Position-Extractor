@@ -22,7 +22,7 @@ import chess.engine
 
 
 APP_NAME = 'QPE - Quiet Position Extractor'
-APP_VERSION = 'v0.15.beta'
+APP_VERSION = 'v0.16.beta'
 
 
 def get_time_h_mm_ss_ms(time_delta_ns):
@@ -231,16 +231,16 @@ def main():
                         default='out.epd')
     parser.add_argument('--engine', required=True, help='input engine file')
     parser.add_argument(
-        '--engineoption', required=False,
+        '--engine-option', required=False,
         help='input engine options, e.g '
-             '--engineoption "Threads=1, Hash=128, Debug Log File=log.txt"')
+             '--engine-option "Threads=1, Hash=128, Debug Log File=log.txt"')
     parser.add_argument('--movetimems', required=False, type=int,
                         help='input analysis time in ms, default=1000',
                         default=1000)
     parser.add_argument('--pvlen', required=False, type=int,
                         help='input pv length to check moves, default=4',
                         default=4)
-    parser.add_argument('--score-margincp', required=False, type=int,
+    parser.add_argument('--scorecp-margin', required=False, type=int,
                         help='input score margin in cp (centipawn) for the '
                              'score delta of static eval and search score. '
                              'If delta is above score margin, the position '
@@ -274,8 +274,8 @@ def main():
     timestart = time.perf_counter_ns()
 
     print('Analysis starts ...')
-    runengine(engine_file, args.engineoption, epd_file, movetimems,
-              outepd_file, args.pvlen, args.score_margincp, args.static_eval,
+    runengine(engine_file, args.engine_option, epd_file, movetimems,
+              outepd_file, args.pvlen, args.scorecp_margin, args.static_eval,
               lowpvfn)
     print('Analysis done!')
 
