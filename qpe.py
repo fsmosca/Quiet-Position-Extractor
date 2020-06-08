@@ -148,15 +148,15 @@ def runengine(engine_file, engineoption, epdfile, movetimems,
                           f'abs({score} - ({staticeval})): {absdiff}')
                     continue
 
-            # Don't extract if there is capture or promote, or a check
-            # move in the first pvlen plies of the pv
-
             # Skip if required pvlen is not meet.
             if len(pv) < pvlen:
                 ucipv = [str(m) for m in pv]
                 print(ucipv)
                 print(f'Skip, pv length is below {pvlen} plies.')
                 continue
+
+            # Don't extract if there is capture or promote, or a check
+            # move in the first pvlen plies of the pv
 
             # Evaluate pv
             sanpv = []
