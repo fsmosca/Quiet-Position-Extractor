@@ -1,5 +1,5 @@
 # Quiet Position Extractor
-Read EPD file, analyze with engine and save positions that are quiet.
+Read EPD file, analyze with engine and save positions that are quiet. If the bm in EPD is a capture or a promotion or a check then don't save it. If the side to move is in check, don't save such position too. If those passes the filter, analysis engine is run and check the first 4 or so moves in the pv. If any of the moves in that pv is a capture or promote or a check move then don't save the position as well. Yet another filter is comparing the static score of Stockfish and its search score, if the difference in static score and search score is too much that is above scorecp-margin then don't save such position too.
 
 ### Needed
 Python 3.8 and up  
